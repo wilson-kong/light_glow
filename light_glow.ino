@@ -7,6 +7,9 @@ int index = 0;
 int total = 0;                  
 int average = 0;    
 
+const int minDistance = 30;
+const int maxDistance = 70;
+
 const int trigPin = 9;
 const int echoPin = 10;
 const int ledPin = 6;
@@ -65,19 +68,19 @@ void loop() {
   // average = total / numReadings;
   average = distance;
   
-  if(average > 120){
-    average = 120;
+  if(average > maxDistance){
+    average = maxDistance;
   }
-  if(average < 30){
-    average = 30;
+  if(average < minDistance){
+    average = minDistance;
   }
 
-  fade = map(average, 30, 120, 255, 0);
+  fade = map(average, minDistance, maxDistance, 255, 0);
   Serial.print("Distance: ");
   Serial.println(fade);
   
   setLEDs(fade);
-  if (fade > 30) {
+  if (fade > minDistance) {
     int extra = map(fade, 255, 0, 3, 0);
     if (extra) {
       setExtraLEDs(extra);
